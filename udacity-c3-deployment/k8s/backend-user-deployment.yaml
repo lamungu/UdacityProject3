@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,9 +6,13 @@ metadata:
   name: backend-user
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      name: backend-user
   template:
     metadata:
       labels:
+        name: backend-user
         service: backend-user
     spec:
       containers:
@@ -28,11 +32,6 @@ spec:
             configMapKeyRef:
               name: env-config
               key: URL 
-        - name: JWT_SECRET
-          valueFrom:
-            configMapKeyRef:
-              name: env-config
-              key: JWT_SECRET
         - name: POSTGRES_DATABASE
           valueFrom:
             configMapKeyRef:
@@ -53,6 +52,11 @@ spec:
             secretKeyRef:
               name: env-secret
               key: POSTGRES_USERNAME
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: env-secret
+              key: JWT_SECRET
       restartPolicy: Always
 
 
