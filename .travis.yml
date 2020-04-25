@@ -16,6 +16,14 @@ before_install:
 - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 - chmod +x ./kubectl
 - sudo mv ./kubectl /usr/local/bin/kubectl
+- sed -i -e 's|KUBE_CA_CERT|'"${KUBE_CA_CERT}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_ENDPOINT|'"${KUBE_ENDPOINT}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_ADMIN_CERT|'"${KUBE_ADMIN_CERT}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_ADMIN_KEY|'"${KUBE_ADMIN_KEY}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_USERNAME|'"${KUBE_USERNAME}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- mkdir ${HOME}/.kube
+- cp udacity-c3-deployment/k8s/kubeconfig ${HOME}/.kube/config
+
 install:
 - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel
 - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml push
