@@ -16,13 +16,13 @@ before_install:
 - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 - chmod +x ./kubectl
 - sudo mv ./kubectl /usr/local/bin/kubectl
+- sed -i -e 's|KUBE_CA_CERT|'"${KUBE_CA_CERT}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_ENDPOINT|'"${KUBE_ENDPOINT}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_ADMIN_CERT|'"${KUBE_ADMIN_CERT}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_ADMIN_KEY|'"${KUBE_ADMIN_KEY}"'|g' udacity-c3-deployment/k8s/kubeconfig
+- sed -i -e 's|KUBE_USERNAME|'"${KUBE_USERNAME}"'|g' udacity-c3-deployment/k8s/kubeconfig
 - mkdir ${HOME}/.kube
 - cp udacity-c3-deployment/k8s/kubeconfig ${HOME}/.kube/config
-- kubectl config set clusters.udabramben.k8s.local.certificate-authority-data "$KUBE_CA_CERT"
-- kubectl config set clusters.udabramben.k8s.local.server "$KUBE_ENDPOINT"
-- kubectl config set users.udabramben.k8s.local.client-certificate-data "$KUBE_ADMIN_CERT"
-- kubectl config set users.udabramben.k8s.local.client-key-data "$KUBE_ADMIN_KEY"
-- kubectl config set users.udabramben.k8s.local.username "$KUBE_USERNAME"
 
 install:
 - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel
