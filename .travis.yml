@@ -1,31 +1,32 @@
 language: minimal
-
 services: docker
-
 env:
+  matrix:
   - DOCKER_COMPOSE_VERSION=1.23.2
-
+  global:
+    secure: ctB2u7kJsWGT+2O8gVeMkYCNTj8dBeyEdRUVaRRc4dClrqq7Qc9b5YiGUkZfN6GLtCqkI0sJTf8XBjs1maQZxuTpZE5GWHgQvzoVyA8+OhFa/yiyTcwnCoaUauETiguKEJh7/qQeYnenjbkXwgqwSGEWUjkynhIZgQwRsv3S/YJWWeQdpDF6iZsrUnR9lq56CnJtUIC28K+d/8z0n9eDfIlEgvdElh4FK/aAR+IRkA/434t9ll9HY7VVPaK22MdeTUB7Mh//ewWGQd24D+FC4FJ9Eha2tzu9IcyFf2ON9QHT6LxFOz3s2jlFGxj1schQUYM4K5v8OQn82Wl8Wx7Uk6XeiFuFqCG8mMg3+SCanVUPKle6DcabQZy+kTPBTMR5IcKSpCGaTN2WKYi/ORn9lvUrA3q8s4rqEpAARvTCiPtAj02BM2QdK9639CbvwePWnwihYi6oDWrC613zcje2GrdqD28QtgynLpsNcWik7VrvCDbEca3d9eHLISBYvIhKL1R5+k7s/zrCFjqyjnQI2RwE+x+PiV9g9WZoB/XpE/RTkB2g5R/rrW8EslzUJeiEvNkxsjQNYrwJuJ32aulJsc1+GAK2dT0kyrf6xwUrdmw1vx6tNN7JfUv8C29F3bmC5p0ztOcAM/3wIEL3PJcBFeOrql0MzxpAd2W86/rHIbQ=
 before_install:
-  - docker -v && docker-compose -v
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker -v && docker-compose -v
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+  -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+- curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+- chmod +x ./kubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
 install:
-  - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel 
-  - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml push
-  - kubectl apply -f udacity-c3-deployment/k8s/backend-feed-service.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/backend-user-service.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/frontend-service.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/reverseproxy-service.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/aws-secret.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/env-configmap.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/env-secret.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/backend-feed-deployment.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/backend-user-deployment.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/frontend-deployment.yaml
-  - kubectl apply -f udacity-c3-deployment/k8s/reverseproxy-deployment.yaml
+- docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel
+- docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml push
+- kubectl apply -f udacity-c3-deployment/k8s/backend-feed-service.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/backend-user-service.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/frontend-service.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/reverseproxy-service.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/aws-secret.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/env-configmap.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/env-secret.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/backend-feed-deployment.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/backend-user-deployment.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/frontend-deployment.yaml
+- kubectl apply -f udacity-c3-deployment/k8s/reverseproxy-deployment.yaml
