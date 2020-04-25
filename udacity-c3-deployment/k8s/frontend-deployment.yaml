@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -7,13 +7,16 @@ metadata:
 spec:
   replicas: 2
   template:
+    selector:
+      matchLabels:
+        name: frontend
     metadata:
       labels:
-        service: frontend
+        name: frontend
         api: external        
     spec:
       containers:
-      - image: lamungu/udacity-p3-frontend:local
+      - image: lamungu/udacity-p3-frontend
         name: frontend
         imagePullPolicy: Always          
         ports:

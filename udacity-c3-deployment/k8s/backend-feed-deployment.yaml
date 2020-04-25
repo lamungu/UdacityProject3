@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,10 +6,13 @@ metadata:
   name: backend-feed
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+        name: backend-feed
   template:
     metadata:
       labels:
-        service: backend-feed
+        name: backend-feed
     spec:
       containers:
       - image: lamungu/udacity-p3-restapi-feed
@@ -46,7 +49,7 @@ spec:
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
-              name: env-config
+              name: env-secret
               key: JWT_SECRET
         - name: POSTGRES_DATABASE
           valueFrom:
