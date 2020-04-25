@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         name: frontend
+        service: frontend
         api: external        
     spec:
       containers:

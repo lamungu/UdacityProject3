@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         name: backend-user
+        service: backend-user
     spec:
       containers:
       - image: lamungu/udacity-p3-restapi-user

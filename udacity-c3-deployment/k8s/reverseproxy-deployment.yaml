@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         name: reverseproxy
+        service: reverseproxy
     spec:
       containers:
       - image: lamungu/reverseproxy
