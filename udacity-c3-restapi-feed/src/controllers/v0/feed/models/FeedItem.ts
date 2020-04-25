@@ -1,6 +1,5 @@
 import {Table, Column, Model, HasMany, PrimaryKey, CreatedAt, UpdatedAt, ForeignKey} from 'sequelize-typescript';
 
-
 @Table
 export class FeedItem extends Model<FeedItem> {
   @Column
